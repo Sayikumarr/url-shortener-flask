@@ -1,1 +1,24 @@
-<h1> This is Sign up page </h1>
+<form onsubmit="return check()" method='post' name="rform">
+    full name:<input type='text' name="fname" required/>
+    Email:<input type='Email' name="email" required/>  
+    username:<input type='text' name="username" required/>
+    pwd:<input type='password' name="pwd" required/> 
+    pwd2:<input type='password' name="pwd2" required/>
+    <input type='submit' value="submit"/> 
+    <h1>{{msg}}</h1> 
+</form>
+<script>
+    function check(){
+        let pwd = document.rform.pwd.value;
+        let pwd2 = document.rform.pwd2.value;
+        if(pwd === pwd2)
+        {
+            return true;
+        }
+        else
+        {
+            alert("check pwd");
+            return false;
+        }
+    }
+</script>
