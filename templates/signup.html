@@ -1,24 +1,122 @@
-<form onsubmit="return check()" method='post' name="rform">
-    full name:<input type='text' name="fname" required/>
-    Email:<input type='Email' name="email" required/>  
-    username:<input type='text' name="username" required/>
-    pwd:<input type='password' name="pwd" required/> 
-    pwd2:<input type='password' name="pwd2" required/>
-    <input type='submit' value="submit"/> 
-    <h1>{{msg}}</h1> 
-</form>
-<script>
-    function check(){
-        let pwd = document.rform.pwd.value;
-        let pwd2 = document.rform.pwd2.value;
-        if(pwd === pwd2)
-        {
-            return true;
+{% extends 'base.html' %} {% block title %}SignUp{% endblock title %} {% block
+    body %}
+    <section class="vh-100">
+      <div class="container-fluid h-custom">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+          <div class="col-md-9 col-lg-6 col-xl-5">
+            <img
+              src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+              class="img-fluid"
+              alt="Sample image"
+            />
+          </div>
+          <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+            <form onsubmit="return check()" method='POST' name="rform">
+              <div class="divider d-flex align-items-center my-4">
+                <p class="text-center fw-bold fs-1 mx-3 mb-0">Sign Up</p>
+              </div>
+              
+              <!-- Full Name input -->
+              <div class="form-outline mb-4">
+                <input
+                  type="text"
+                  id="form3Example3"
+                  class="form-control form-control-lg"
+                  placeholder="Enter Full Name"
+                  name="fname"
+                  required
+                />
+                <label class="form-label" for="form3Example3">Full Name</label>
+              </div>
+
+              <!-- Email input -->
+              <div class="form-outline mb-4">
+                <input
+                  type="email"
+                  id="form3Example3"
+                  class="form-control form-control-lg"
+                  placeholder="Enter a valid Email"
+                  name="email"
+                  required
+                />
+                <label class="form-label" for="form3Example3">Email</label>
+              </div>
+
+              <!-- UserName input -->
+              <div class="form-outline mb-4">
+                <input
+                  type="text"
+                  id="form3Example3"
+                  class="form-control form-control-lg"
+                  placeholder="Enter a valid username"
+                  name="username"
+                  required
+                />
+                <label class="form-label" for="form3Example3">Username</label>
+              </div>
+    
+              <!-- Password input -->
+              <div class="form-outline mb-3">
+                <input
+                  type="password"
+                  id="form3Example4"
+                  class="form-control form-control-lg"
+                  placeholder="Enter password"
+                  name="pwd"
+                  required
+                />
+                <label class="form-label" for="form3Example4">Password</label>
+              </div>
+
+              <!-- Confirm Password input -->
+              <div class="form-outline mb-3">
+                <input
+                  type="password"
+                  id="form3Example4"
+                  class="form-control form-control-lg"
+                  placeholder="Enter Confirm password"
+                  name="pwd2"
+                  required
+                />
+                <label class="form-label" for="form3Example4">Confirm Password</label>
+              </div>
+    
+              <div class="d-flex justify-content-between align-items-center">
+                <p class='text-danger'>{{msg}}</p>
+              </div>
+    
+              <div class="text-center text-lg-start mt-4 pt-2">
+                <button
+                  type="submit"
+                  class="btn btn-primary btn-lg"
+                  style="padding-left: 2.5rem; padding-right: 2.5rem"
+                >
+                Register
+                </button>
+                <p class="small fw-bold mt-2 pt-1 mb-0">
+                  Already have an account?
+                  <a href="/signin" class="link-danger">Login</a>
+                </p>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+    <script>
+        function check(){
+            let pwd = document.rform.pwd.value;
+            let pwd2 = document.rform.pwd2.value;
+            if(pwd === pwd2)
+            {
+                return true;
+            }
+            else
+            {
+                alert("check pwd");
+                return false;
+            }
         }
-        else
-        {
-            alert("check pwd");
-            return false;
-        }
-    }
-</script>
+    </script>
+    {% endblock body %}
+    

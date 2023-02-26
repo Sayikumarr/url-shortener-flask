@@ -25,7 +25,7 @@ class User(db.Model):
     fullName = db.Column(db.String(30), nullable = False)
     email = db.Column(db.String(50), unique = True)
     # urls = db.relationship("Url", backref="user")
-     
+
     # Special method to represent class objects as a string
     def __repr__(self):
         return f"ID : {self.id}, Username: {self.username}"
@@ -67,12 +67,13 @@ def login_check(func):
 
 @app.route("/")
 def home():
-    return render_template("home.html")
+    user = verify_auth_token(request.cookies.get("token"))
+    return render_template("home.html",user=user)
 
 @app.route("/signin",methods=['GET','POST'])
 def signin():
-    print(request.cookies)
-    if not verify_auth_token(request.cookies.get("token")):
+    user = verify_auth_token(request.cookies.get("token"))
+    if not user:
         if request.method=="POST":
             username=request.form.get("username")
             pwd=request.form.get("pwd")
@@ -92,7 +93,8 @@ def signin():
 
 @app.route("/signup",methods=['GET','POST'])
 def signup():
-    if not verify_auth_token(request.cookies.get("token")):
+    user = verify_auth_token(request.cookies.get("token"))
+    if not user:
         if request.method=="POST":
             name=request.form.get("fname")
             email=request.form.get("email")
@@ -119,10 +121,10 @@ def signout():
     return resp
 
 
-@app.route('/data',methods=['GET','POST'])
-@login_check
 # To view or add the URLs
-def viewOrAddURL():
+@app.route('/dashboard',methods=['GET','POST'])
+@login_check
+def dashboard():
     user = verify_auth_token(request.cookies.get("token"))
     user_urls = Url.query.filter(Url.user_id==user.id)
     if request.method=='POST':
@@ -139,9 +141,9 @@ def viewOrAddURL():
             new_url = Url(short_url=short_url,or_url=url,user_id=user.id)
             db.session.add(new_url)
             db.session.commit()
-            return redirect('/data')
+            return redirect('/dashboard')
     url_set = user_urls.all()
-    return render_template('data.html',data=url_set)
+    return render_template('data.html',data=url_set,user=user)
 
 @app.route('/<short_url>', methods=['GET'])
 def redirect_url(short_url):
