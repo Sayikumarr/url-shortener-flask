@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 import jwt
 
+# To evaluate the name of the current module
 app = Flask(__name__)
 app.debug = True
 
@@ -15,6 +16,7 @@ app.config['SECRET_KEY'] = 'sai@123'
 
 db = SQLAlchemy(app)
 
+#Class containing the details of user table
 class User(db.Model):
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
@@ -23,11 +25,12 @@ class User(db.Model):
     fullName = db.Column(db.String(30), nullable = False)
     email = db.Column(db.String(50), unique = True)
     # urls = db.relationship("Url", backref="user")
-
+     
+    # Special method to represent class objects as a string
     def __repr__(self):
         return f"ID : {self.id}, Username: {self.username}"
 
-
+# Class containing child table 'url' 
 class Url(db.Model):
     __tablename__ = 'url'
     id = db.Column(db.Integer, primary_key=True)
@@ -35,6 +38,7 @@ class Url(db.Model):
     or_url = db.Column(db.String(2048), nullable = False)
     short_url = db.Column(db.String(8), unique = True, nullable = False)
     
+    # Special method to represent class objects as string
     def __repr__(self):
         return f"User ID : {self.user_id}, Shortened URL: {self.short_url}"
 
@@ -45,6 +49,7 @@ def generate_auth_token(user):
 # To verify the token
 def verify_auth_token(token):
     try:
+        #HS256 is a symmetric algorithm that shares one secret key between the identity provider and your application
         data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=['HS256'])
     except:
         return
@@ -116,6 +121,7 @@ def signout():
 
 @app.route('/data',methods=['GET','POST'])
 @login_check
+# To view or add the URLs
 def viewOrAddURL():
     user = verify_auth_token(request.cookies.get("token"))
     user_urls = Url.query.filter(Url.user_id==user.id)
