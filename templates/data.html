@@ -19,7 +19,7 @@
   </thead>
   <tbody class="datatable-body">
     {% for url in data %}
-        <tr scope="row" data-mdb-index="0"><td style="" class="" data-mdb-field="field_0" false="">{{loop.index}}.</td><td style="" class="" data-mdb-field="field_1" false=""><a href="{{url.or_url}}">{{url.or_url}}</a></td><td style="" class="" data-mdb-field="field_2" false=""><a href="{{request.base_url.replace("dashboard",'')}}{{url.short_url}}">{{request.base_url.replace("dashboard",'')}}{{url.short_url}}</a></td><td style="" class="" data-mdb-field="field_3" false="">2011/04/25</td><td style="" class="text-danger" data-mdb-field="field_4" false="">Delete</td></tr>
+        <tr scope="row" data-mdb-index="0"><td style="" class="" data-mdb-field="field_0" false="">{{loop.index}}.</td><td style="" class="" data-mdb-field="field_1" false=""><a href="{{url.or_url}}" target="_blank" >{{url.or_url}}</a></td><td style="" class="" data-mdb-field="field_2" false=""><a href="{{request.base_url.replace("dashboard",'')}}{{url.short_url}}" target="_blank" >{{request.base_url.replace("dashboard",'')}}{{url.short_url}}</a></td><td style="" class="" data-mdb-field="field_3" false="">{{url.created_date.date()}}</td><td style="" class="text-danger" data-mdb-field="field_4" false=""><a href="/delete/{{url.id}}">Delete</a></td></tr>
     {% endfor %}
     </tbody>
 </table>
@@ -46,10 +46,7 @@
 </div>
 
 </div>
-  </section>
-
-
-    
+</section>
   <div class="container">
     <form method='POST'>
         <div class="form-outline">

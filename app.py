@@ -4,6 +4,7 @@ from flask import Flask,render_template,request,redirect,make_response
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 import jwt
+import datetime
 
 # To evaluate the name of the current module
 app = Flask(__name__)
@@ -37,6 +38,7 @@ class Url(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
     or_url = db.Column(db.String(2048), nullable = False)
     short_url = db.Column(db.String(8), unique = True, nullable = False)
+    created_date = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     
     # Special method to represent class objects as string
     def __repr__(self):
@@ -152,6 +154,19 @@ def redirect_url(short_url):
         return redirect(url.or_url)
     else:
         return "Invalid URL"
+    
+@app.route('/delete/<id>')
+def deleteURL(id):
+    try:
+        user = verify_auth_token(request.cookies.get("token"))
+        Url.query.filter(Url.user_id==user.id).filter_by(id=id).delete()
+        db.session.commit()
+        return redirect('/dashboard')
+    except Exception as e:
+        print(e)
+        return "Something went Wrong!"
+
+
 
 def main():
     with app.app_context():
